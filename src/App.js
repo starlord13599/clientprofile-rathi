@@ -1,58 +1,37 @@
 import React from 'react';
-import logo from './logo.svg';
-import { Counter } from './features/counter/Counter';
-import './App.css';
+import { Switch } from 'react-router';
+import { useSelector } from 'react-redux';
+
+import Login from './features/Login/Login';
+import { PublicRoute, ProtectedRoute } from './app/routes';
+import Dashboard from './features/Dashboard/Dashboard';
+import AuthProvider from './app/context/auth/authProvider';
+import MiniDrawer from './features/Drawer/Drawer';
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <Counter />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <span>
-          <span>Learn </span>
-          <a
-            className="App-link"
-            href="https://reactjs.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            React
-          </a>
-          <span>, </span>
-          <a
-            className="App-link"
-            href="https://redux.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Redux
-          </a>
-          <span>, </span>
-          <a
-            className="App-link"
-            href="https://redux-toolkit.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Redux Toolkit
-          </a>
-          ,<span> and </span>
-          <a
-            className="App-link"
-            href="https://react-redux.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            React Redux
-          </a>
-        </span>
-      </header>
-    </div>
-  );
+	const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+
+	return (
+		<AuthProvider isAuthenticated={isAuthenticated}>
+			<Switch>
+				<PublicRoute
+					exact
+					path="/login"
+					Component={Login}
+					isAuthenticated={isAuthenticated}
+				></PublicRoute>
+
+				<ProtectedRoute
+					exact
+					path="/dashboard"
+					Component={Dashboard}
+					isAuthenticated={isAuthenticated}
+				></ProtectedRoute>
+
+				<PublicRoute exact path="/drawer" Component={MiniDrawer}></PublicRoute>
+			</Switch>
+		</AuthProvider>
+	);
 }
 
 export default App;
