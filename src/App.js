@@ -8,6 +8,7 @@ import Dashboard from './features/Dashboard/Dashboard';
 import AuthProvider from './app/context/auth/authProvider';
 import MiniDrawer from './features/Drawer/Drawer';
 import FileUpload from './features/FileUpload/FileUpload';
+import ClientData from './features/ClientData/ClientData';
 
 function App() {
 	const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
@@ -31,6 +32,7 @@ function App() {
 
 				<PublicRoute exact path="/drawer" Component={MiniDrawer}></PublicRoute>
 				<PublicRoute exact path="/file-upload" Component={FileUpload}></PublicRoute>
+				<PublicRoute exact path="/clientData" Component={ClientData}></PublicRoute>
 			</Switch>
 		</AuthProvider>
 	);
