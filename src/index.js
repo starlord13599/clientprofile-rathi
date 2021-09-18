@@ -9,16 +9,14 @@ import App from './App';
 import AppThemeProvider from './app/context/theme/appThemeProvider';
 
 ReactDOM.render(
-	<React.StrictMode>
-		<BrowserRouter>
-			<Provider store={store}>
-				<AppThemeProvider>
-					<CssBaseline>
-						<App />
-					</CssBaseline>
-				</AppThemeProvider>
-			</Provider>
-		</BrowserRouter>
-	</React.StrictMode>,
+	<BrowserRouter>
+		<Provider store={store}>
+			<AppThemeProvider>
+				<CssBaseline>
+					<App />
+				</CssBaseline>
+			</AppThemeProvider>
+		</Provider>
+	</BrowserRouter>,
 	document.getElementById('root')
 );

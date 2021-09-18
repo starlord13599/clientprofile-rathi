@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import FormControl from '@material-ui/core/FormControl';
@@ -16,11 +17,14 @@ import { useFormik } from 'formik';
 
 import useStyles from './login.style';
 import loginValidationSchema from '../../app/validations/loginSchema';
+import LocalStorage from '../../app/service/LocalStorage';
+import { logIn } from './loginSlice';
 
 function Login() {
 	const classes = useStyles();
 
 	const [isVisible, setVisibility] = useState(false);
+	const dispatch = useDispatch();
 
 	const formik = useFormik({
 		initialValues: {
@@ -36,8 +40,9 @@ function Login() {
 			//check if user is valid or show error according
 
 			//store token and user in localStorage
-
+			LocalStorage.setItem('isAuthenticated', true);
 			//redirect
+			dispatch(logIn());
 		},
 	});
 

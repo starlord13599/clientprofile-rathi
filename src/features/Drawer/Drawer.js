@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import clsx from 'clsx';
 import { useTheme } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
@@ -24,6 +25,8 @@ import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 // import MailIcon from '@material-ui/icons/Mail';
 
 import useStyles from './drawer.style';
+import { logOut } from '../Login/loginSlice';
+import LocalStorage from '../../app/service/LocalStorage';
 
 export default function MiniDrawer({ children }) {
 	const classes = useStyles();
@@ -31,6 +34,7 @@ export default function MiniDrawer({ children }) {
 	const [open, setOpen] = useState(false);
 	const [anchorEl, setAnchorEl] = useState(null);
 	const menuOpen = Boolean(anchorEl);
+	const dispatch = useDispatch();
 
 	const handleDrawerOpen = () => {
 		setOpen(true);
@@ -46,6 +50,11 @@ export default function MiniDrawer({ children }) {
 
 	const handleClose = () => {
 		setAnchorEl(null);
+	};
+
+	const handleLogOut = () => {
+		LocalStorage.removeAllItems();
+		dispatch(logOut());
 	};
 
 	return (
@@ -92,7 +101,7 @@ export default function MiniDrawer({ children }) {
 							open={menuOpen}
 							onClose={handleClose}
 						>
-							<MenuItem>
+							<MenuItem onClick={handleLogOut}>
 								<ListItemIcon>
 									<ExitToAppIcon />
 								</ListItemIcon>
