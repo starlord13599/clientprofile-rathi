@@ -60,10 +60,15 @@ const useStyles = makeStyles((theme) => ({
 	},
 	content: {
 		flexGrow: 1,
+		maxWidth: '94%',
 		padding: theme.spacing(3),
 	},
 	profileButton: {
 		marginLeft: 'auto',
+	},
+	links: {
+		textDecoration: 'none',
+		color: theme.palette.text.primary,
 	},
 }));
 

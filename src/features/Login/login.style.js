@@ -15,6 +15,16 @@ const useStyles = makeStyles((theme) => ({
 		width: '100%',
 		marginTop: theme.spacing(1),
 	},
+	buttonBox: {
+		position: 'relative',
+	},
+	butonSpinner: {
+		position: 'absolute',
+		top: '50%',
+		left: '50%',
+		marginTop: '-8px',
+		marginLeft: '-12px',
+	},
 	submit: {
 		margin: theme.spacing(3, 0, 2),
 	},
