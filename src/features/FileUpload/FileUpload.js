@@ -1,82 +1,86 @@
 import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
 import CloudUploadOutlinedIcon from '@material-ui/icons/CloudUploadOutlined';
 import Container from '@material-ui/core/Container';
 import { DropzoneArea } from 'material-ui-dropzone';
-import axios from 'axios';
+import { useSnackbar } from 'notistack';
 
 import MiniDrawer from '../Drawer/Drawer';
 import useStyles from './fileupload.style';
 import { withRouter } from 'react-router';
+import { uplaodFile } from './FileUploadSlice';
 
 function FileUpload() {
 	const classes = useStyles();
+	const dispatch = useDispatch();
+	const { enqueueSnackbar } = useSnackbar();
 
-	const [selectedFiles1, setSelectedFiles1] = useState([]);
-	const [selectedFiles2, setSelectedFiles2] = useState([]);
+	const [NFOfiles, setNFOFiles] = useState([]); //1
+	const [NSEfiles, setNSEFiles] = useState([]);
 
-	const handleFile1OnChange = (files) => {
-		setSelectedFiles1(files);
+	const handleNFOFileChange = (files) => {
+		setNFOFiles(files);
 	};
 
-	const handleFile2OnChange = (files) => {
-		setSelectedFiles2(files);
+	const handleNSEFileChange = (files) => {
+		setNSEFiles(files);
 	};
 
-	const handleOnFile1Submit = async (e) => {
-		e.preventDefault();
+	const handleNFOFilesSubmit = async (e) => {
+		try {
+			e.preventDefault();
 
-		const formData = new FormData();
+			const formData = new FormData();
 
-		for (const file of selectedFiles1) {
-			formData.append(`${file.name}`, file);
-		}
-
-		// Details of the uploaded file
-		console.log(formData.values());
-
-		// Request made to the backend api
-		// Send formData object
-		const response = await axios.post(
-			'http://1edd-150-129-206-169.ngrok.io/api/transaction/upload-new-transactions',
-			formData,
-			{
-				headers: {
-					'Content-Type': 'multipart/form-data',
-				},
+			for (const file of NFOfiles) {
+				formData.append(`${file.name}`, file);
 			}
-		);
 
-		console.log(response);
+			const { rejected_files, message } = await dispatch(
+				uplaodFile({ url: '/api/transaction/upload-fo', formData: formData })
+			).unwrap();
+
+			if (rejected_files?.length !== 0) {
+				const rejected_files_errors = rejected_files.join(',');
+				return enqueueSnackbar(`Following files were rejected:- ${rejected_files_errors}`, {
+					variant: 'error',
+				});
+			}
+
+			return enqueueSnackbar(message, { variant: 'success' });
+		} catch (error) {
+			return enqueueSnackbar(error.message, { variant: 'error' });
+		}
 	};
 
-	const handleOnFile2Submit = async (e) => {
-		e.preventDefault();
+	const handleNSEFilesSubmit = async (e) => {
+		try {
+			e.preventDefault();
 
-		const formData = new FormData();
+			const formData = new FormData();
 
-		for (const file of selectedFiles2) {
-			formData.append(`${file.name}`, file);
-		}
-
-		// Details of the uploaded file
-		console.log(formData.values());
-
-		// Request made to the backend api
-		// Send formData object
-		const response = await axios.post(
-			'http://1edd-150-129-206-169.ngrok.io/api/transaction/upload-new-transactions',
-			formData,
-			{
-				headers: {
-					'Content-Type': 'multipart/form-data',
-				},
+			for (const file of NSEfiles) {
+				formData.append(`${file.name}`, file);
 			}
-		);
 
-		console.log(response);
+			const { rejected_files, message } = await dispatch(
+				uplaodFile({ url: '/api/transaction/upload-equity', formData: formData })
+			).unwrap();
+
+			if (rejected_files?.length !== 0) {
+				const rejected_files_errors = rejected_files.join(',');
+				return enqueueSnackbar(`Following files were rejected:- ${rejected_files_errors}`, {
+					variant: 'error',
+				});
+			}
+
+			return enqueueSnackbar(message, { variant: 'success' });
+		} catch (error) {
+			return enqueueSnackbar(error.message, { variant: 'error' });
+		}
 	};
 
 	return (
@@ -84,13 +88,14 @@ function FileUpload() {
 			<Container>
 				<Grid container direction="row" justifyContent="center" alignItems="center">
 					<Grid item xs={6}>
-						<form className={classes.uploadForm} onSubmit={handleOnFile1Submit}>
+						<form className={classes.uploadForm} onSubmit={handleNFOFilesSubmit}>
 							<Paper className={classes.paper}>
 								<DropzoneArea
 									acceptedFiles={['text/plain']}
 									clearOnUnmount
 									useChipsForPreview
-									onChange={handleFile1OnChange}
+									dropzoneText={'Upload NFO files here'}
+									onChange={handleNFOFileChange}
 									Icon={CloudUploadOutlinedIcon}
 									previewGridProps={{
 										container: {
@@ -115,13 +120,14 @@ function FileUpload() {
 					</Grid>
 
 					<Grid item xs={6}>
-						<form className={classes.uploadForm} onSubmit={handleOnFile2Submit}>
+						<form className={classes.uploadForm} onSubmit={handleNSEFilesSubmit}>
 							<Paper className={classes.paper}>
 								<DropzoneArea
 									acceptedFiles={['text/plain']}
 									clearOnUnmount
 									useChipsForPreview
-									onChange={handleFile2OnChange}
+									dropzoneText={'Upload NSE files here'}
+									onChange={handleNSEFileChange}
 									Icon={CloudUploadOutlinedIcon}
 									previewGridProps={{
 										container: {

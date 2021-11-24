@@ -44,8 +44,8 @@ const { actions, reducer } = createSlice({
 			.addCase(logIn.fulfilled, (state, action) => {
 				const { data } = action.payload;
 				state.isAuthenticated = true;
-				state.user = data.user;
-				state.role = data.user.role;
+				state.user = data.user_profile;
+				state.role = data.user_profile.role;
 				state.status = 'idle';
 			})
 			.addCase(logIn.pending, (state, action) => {

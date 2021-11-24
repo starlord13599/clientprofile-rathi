@@ -1,29 +1,43 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import Box from '@material-ui/core/Box';
-import Button from '@material-ui/core/Button';
-import Paper from '@material-ui/core/Paper';
-import InputBase from '@material-ui/core/InputBase';
-import TablePagination from '@material-ui/core/TablePagination';
-import SearchIcon from '@material-ui/icons/Search';
+// import Box from '@material-ui/core/Box';
+// import Button from '@material-ui/core/Button';
+// import Paper from '@material-ui/core/Paper';
+// import TablePagination from '@material-ui/core/TablePagination';
 import { useSnackbar } from 'notistack';
-import LinearProgress from '@material-ui/core/LinearProgress';
-
+// import LinearProgress from '@material-ui/core/LinearProgress';
 import MiniDrawer from '../Drawer/Drawer';
-import useStyles from './clientData.styles';
+// import useStyles from './clientData.styles';
 import { fetchData } from './clientDataSlice';
-import TableGrid from './components/TableGrid';
+// import TableGrid from './components/TableGrid';
 import { columns } from './dummyData';
-import NoDataFound from './components/NoDataFound';
+// import NoDataFound from './components/NoDataFound';
 import { withRouter } from 'react-router';
+// import AccountIdSearch from './AccountIdSearch/AccountIdSearch';
+import MUIDataTable from 'mui-datatables';
+
+const options = {
+	filterType: 'dropdown',
+	selectableRows: 'none',
+	tableBodyMaxHeight: '450px',
+	downloadOptions: {
+		filename: 'Employee List.csv',
+		filterOptions: {
+			useDisplayedColumnsOnly: true,
+			useDisplayedRowsOnly: true,
+		},
+	},
+	draggableColumns: {
+		enabled: true,
+	},
+};
 
 function ClientData() {
-	const classes = useStyles();
-	const [page, setPage] = useState(0);
-	const [rowsPerPage, setRowsPerPage] = useState(10);
-	const [order, setOrder] = useState('asc');
-	const [orderBy, setOrderBy] = useState('accountId');
-
+	// const classes = useStyles();
+	// const [page, setPage] = useState(1);
+	// const [rowsPerPage, setRowsPerPage] = useState(10);
+	// const [order, setOrder] = useState('asc');
+	// const [orderBy, setOrderBy] = useState('accountId');
 	const { enqueueSnackbar } = useSnackbar();
 
 	const rows = useSelector((state) => state.dataGrid.data);
@@ -32,24 +46,24 @@ function ClientData() {
 
 	const dispatch = useDispatch();
 
-	const handleRequestSort = (event, property) => {
-		const isAsc = orderBy === property && order === 'asc';
-		setOrder(isAsc ? 'desc' : 'asc');
-		setOrderBy(property);
-	};
+	// const handleRequestSort = (event, property) => {
+	// 	const isAsc = orderBy === property && order === 'asc';
+	// 	setOrder(isAsc ? 'desc' : 'asc');
+	// 	setOrderBy(property);
+	// };
 
-	const createSortHandler = (property) => (event) => {
-		handleRequestSort(event, property);
-	};
+	// const createSortHandler = (property) => (event) => {
+	// 	handleRequestSort(event, property);
+	// };
 
-	const handleChangePage = (event, newPage) => {
-		setPage(newPage);
-	};
+	// const handleChangePage = (event, newPage) => {
+	// 	setPage(newPage);
+	// };
 
-	const handleChangeRowsPerPage = (event) => {
-		setRowsPerPage(+event.target.value);
-		setPage(0);
-	};
+	// const handleChangeRowsPerPage = (event) => {
+	// 	setRowsPerPage(+event.target.value);
+	// 	setPage(1);
+	// };
 
 	useEffect(() => {
 		if (status === 'idle') {
@@ -63,32 +77,11 @@ function ClientData() {
 
 	return (
 		<MiniDrawer>
-			<Box display="flex" alignItems="center">
-				<Button variant="contained" className={classes.margin}>
-					generate Data
-				</Button>
-				<Button variant="contained" className={classes.margin}>
-					Export table data
-				</Button>
-				<Button variant="contained" className={classes.margin}>
-					column visibility
-				</Button>
-				Report generated on 8/8/2021
-				<div className={classes.search}>
-					<div className={classes.searchIcon}>
-						<SearchIcon />
-					</div>
-					<InputBase
-						placeholder="Search…"
-						classes={{
-							root: classes.inputRoot,
-							input: classes.inputInput,
-						}}
-						inputProps={{ 'aria-label': 'search' }}
-					/>
-				</div>
-			</Box>
-			<Paper className={classes.root}>
+			{/* <Box display="flex" alignItems="center">
+				<AccountIdSearch></AccountIdSearch>
+				<Button variant="contained">Export table data</Button>
+			</Box> */}
+			{/* <Paper className={classes.root}>
 				{status === 'loading' ? (
 					<LinearProgress />
 				) : (
@@ -111,7 +104,7 @@ function ClientData() {
 			</Paper>
 			<Paper>
 				<TablePagination
-					rowsPerPageOptions={[10, 25, 100]}
+					rowsPerPageOptions={[5, 10, 15]}
 					component="div"
 					count={rows ? rows.length : 0}
 					rowsPerPage={rowsPerPage}
@@ -119,7 +112,13 @@ function ClientData() {
 					onPageChange={handleChangePage}
 					onRowsPerPageChange={handleChangeRowsPerPage}
 				/>
-			</Paper>
+			</Paper> */}
+			<MUIDataTable
+				title={'Employee List'}
+				data={rows}
+				columns={columns}
+				options={options}
+			></MUIDataTable>
 		</MiniDrawer>
 	);
 }

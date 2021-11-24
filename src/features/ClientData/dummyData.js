@@ -1,72 +1,88 @@
+const sortFilter = {
+	sort: true,
+	filter: true,
+};
+
+const sortOption = {
+	sort: true,
+	filter: false,
+};
+
 const columns = [
-	{ id: 'accountId', label: 'Account Id', minWidth: 120, align: 'left' },
-	{ id: 'exchgSeg', label: 'Exchg Seg', minWidth: 100, align: 'left' },
 	{
-		id: 'tradingSymbol',
+		name: 'account_id',
+		label: 'Account Id',
+		options: {
+			...sortFilter,
+			setCellHeaderProps: () => ({ style: { minWidth: '150px' } }),
+		},
+	},
+	{
+		name: 'exchg_seg',
+		label: 'Exchg Seg',
+		options: {
+			...sortOption,
+			setCellHeaderProps: () => ({ style: { minWidth: '100px' } }),
+		},
+	},
+	{
+		name: 'trading_symbol',
 		label: 'Trading Symbol',
-		minWidth: 200,
-		align: 'left',
+		options: sortOption,
 	},
 	{
-		id: 'symbol',
+		name: 'symbol',
 		label: 'Symbol',
-		minWidth: 120,
-		align: 'left',
+		options: sortOption,
 	},
 	{
-		id: 'expiryDate',
+		name: 'expiry_date',
 		label: 'Expiry Date',
-		minWidth: 120,
-		align: 'left',
+		options: sortOption,
 	},
 	{
-		id: 'instName',
+		name: 'instrument_name',
 		label: 'Instrument Name',
-		minWidth: 100,
-		align: 'left',
+		options: sortOption,
 	},
 	{
-		id: 'buyQty',
+		name: 'buy_qty',
 		label: 'Buy Qty',
-		minWidth: 90,
-		align: 'left',
+		options: sortOption,
 	},
 	{
-		id: 'buyAvgPrice',
+		name: 'buy_avg',
 		label: 'Buy Avg Price',
-		minWidth: 90,
-		align: 'left',
+		options: sortOption,
 	},
 	{
-		id: 'buyValue',
+		name: 'buy_value',
 		label: 'Buy Value',
-		minWidth: 100,
-		align: 'left',
+		options: sortOption,
 	},
+	// {
+	// 	name: 'buy_qty_lots',
+	// 	label: 'Buy Qty Lots',
+	// },
 	{
-		id: 'buyQtyLots',
-		label: 'Buy Qty Lots',
-		minWidth: 90,
-		align: 'left',
-	},
-	{
-		id: 'sellQty',
+		name: 'sell_qty',
 		label: 'Sell Qty',
-		minWidth: 90,
-		align: 'left',
+		options: sortOption,
 	},
 	{
-		id: 'sellAvgPrice',
+		name: 'sell_avg',
 		label: 'Sell Avg Price',
-		minWidth: 90,
-		align: 'left',
+		options: sortOption,
 	},
 	{
-		id: 'sellValue',
+		name: 'sell_value',
 		label: 'Sell Value',
-		minWidth: 80,
-		align: 'left',
+		options: sortOption,
 	},
+	// {
+	// 	name: 'sell_qty',
+	// 	label: 'Sell Qty Lots',
+	// },
 ];
 
 export { columns };

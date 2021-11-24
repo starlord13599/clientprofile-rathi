@@ -42,10 +42,9 @@ function Login() {
 		onSubmit: async (values) => {
 			try {
 				const response = await dispatch(logIn(values)).unwrap();
-				const { token, user } = response.data;
-
-				LocalStorage.setItem('user', user);
-				LocalStorage.setItem('token', token);
+				const { tokens, user_profile } = response.data;
+				LocalStorage.setItem('user', user_profile);
+				LocalStorage.setItem('token', tokens);
 
 				return enqueueSnackbar('You are logged in', { variant: 'success' });
 			} catch (error) {

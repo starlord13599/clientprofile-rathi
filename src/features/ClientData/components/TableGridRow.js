@@ -6,21 +6,22 @@ import Chip from '@material-ui/core/Chip';
 function TableGridRow({ row }) {
 	return (
 		<TableRow>
-			<TableCell>{row.accountId}</TableCell>
+			<TableCell>{row.account_id}</TableCell>
 			<TableCell>
-				<Chip label={row.exchgSeg} size="small"></Chip>
+				<Chip label={row.exchg_seg} size="small"></Chip>
 			</TableCell>
-			<TableCell>{row.tradingSymbol}</TableCell>
+			<TableCell>{row.trading_symbol}</TableCell>
 			<TableCell>{row.symbol}</TableCell>
-			<TableCell>{row.expiryDate}</TableCell>
-			<TableCell>{row.instName}</TableCell>
-			<TableCell>{row.buyQty}</TableCell>
-			<TableCell>{row.buyAvgPrice}</TableCell>
-			<TableCell>{row.buyValue}</TableCell>
-			<TableCell>{row.buyQtyLots}</TableCell>
-			<TableCell>{row.sellQty}</TableCell>
-			<TableCell>{row.sellAvgPrice}</TableCell>
-			<TableCell>{row.sellValue}</TableCell>
+			<TableCell>{row.expiry_date}</TableCell>
+			<TableCell>{row.instrument_name}</TableCell>
+			<TableCell>{row.buy_qty}</TableCell>
+			<TableCell>{row.buy_avg}</TableCell>
+			<TableCell>{row.buy_amount}</TableCell>
+			<TableCell>{row.quantity_in_lots}</TableCell>
+			<TableCell>{row.sell_qty}</TableCell>
+			<TableCell>{row.sell_avg}</TableCell>
+			<TableCell>{row.sell_amount}</TableCell>
+			<TableCell>{row.quantity_in_lots}</TableCell>
 		</TableRow>
 	);
 }

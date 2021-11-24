@@ -6,7 +6,7 @@ function TableGridBody({ rows }) {
 	return (
 		<TableBody>
 			{rows.map((row) => {
-				return <TableGridRow key={row.accountId} row={row}></TableGridRow>;
+				return <TableGridRow key={row.index} row={row}></TableGridRow>;
 			})}
 		</TableBody>
 	);
