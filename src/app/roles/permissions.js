@@ -19,7 +19,6 @@ const userPermissions = [
 ];
 
 export function getMenu(role) {
-	console.log(role);
 	const final = userPermissions.filter((permission) => {
 		return permission.permissions.includes(role);
 	});

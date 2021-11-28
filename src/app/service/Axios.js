@@ -1,12 +1,33 @@
 import axios from 'axios';
-class Axios {
-	axiosCalls = axios.create({
-		baseURL: process.env.REACT_APP_API_BASE_URL,
-	});
+import config from '../../app.config';
+import LocalStorage from './LocalStorage';
 
+const apiCaller = axios.create({
+	baseURL: config.NGRX_BASE_URL,
+});
+
+apiCaller.interceptors.request.use(
+	function (config) {
+		const { access_token: accessToken } = LocalStorage.getItem('token');
+
+		if (accessToken) {
+			config.headers = {
+				Accept: 'application/json',
+				Authorization: `Bearer ${accessToken}`,
+			};
+		}
+
+		return config;
+	},
+	function (error) {
+		return Promise.reject(error);
+	}
+);
+
+class Axios {
 	async apiPost(url, payload) {
 		try {
-			const { data, status } = await this.axiosCalls.post(url, payload);
+			const { data, status } = await apiCaller.post(url, payload);
 			return { data, status };
 		} catch (error) {
 			if (!error.response) {
@@ -20,7 +41,7 @@ class Axios {
 
 	async apiGet(url) {
 		try {
-			const { data, status } = await this.axiosCalls.get(url);
+			const { data, status } = await apiCaller.get(url);
 			return { data, status };
 		} catch (error) {
 			let { status, data } = error.response;

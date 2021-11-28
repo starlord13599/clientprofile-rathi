@@ -16,6 +16,10 @@ export const fetchData = createAsyncThunk(
 		try {
 			const { data, status } = await Axios.apiGet(`api/transaction/list`);
 
+			if (status === 404) {
+				return rejectWithValue('No Data Found');
+			}
+
 			if (status !== 200) {
 				return rejectWithValue('Error while fetching data');
 			}

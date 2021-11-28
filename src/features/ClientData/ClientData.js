@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 // import Box from '@material-ui/core/Box';
 // import Button from '@material-ui/core/Button';
@@ -15,11 +15,14 @@ import { columns } from './dummyData';
 import { withRouter } from 'react-router';
 // import AccountIdSearch from './AccountIdSearch/AccountIdSearch';
 import MUIDataTable from 'mui-datatables';
+import { LinearProgress } from '@material-ui/core';
 
 const options = {
 	filterType: 'dropdown',
 	selectableRows: 'none',
 	tableBodyMaxHeight: '450px',
+	resizeableColumns: true,
+	responsive: 'standard',
 	downloadOptions: {
 		filename: 'Employee List.csv',
 		filterOptions: {
@@ -113,12 +116,16 @@ function ClientData() {
 					onRowsPerPageChange={handleChangeRowsPerPage}
 				/>
 			</Paper> */}
-			<MUIDataTable
-				title={'Employee List'}
-				data={rows}
-				columns={columns}
-				options={options}
-			></MUIDataTable>
+			{status === 'loading' ? (
+				<LinearProgress />
+			) : (
+				<MUIDataTable
+					title={'Stock Exchange'}
+					data={rows}
+					columns={columns}
+					options={options}
+				></MUIDataTable>
+			)}
 		</MiniDrawer>
 	);
 }

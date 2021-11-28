@@ -1,3 +1,5 @@
+import Chip from '@material-ui/core/Chip';
+
 const sortFilter = {
 	sort: true,
 	filter: true,
@@ -18,11 +20,14 @@ const columns = [
 		},
 	},
 	{
-		name: 'exchg_seg',
+		name: 'exchange_seg',
 		label: 'Exchg Seg',
 		options: {
-			...sortOption,
-			setCellHeaderProps: () => ({ style: { minWidth: '100px' } }),
+			...sortFilter,
+			// setCellHeaderProps: () => ({ style: { minWidth: '100px' } }),
+			customBodyRender: (value, tableMeta, updateValue) => {
+				return <Chip label={value} />;
+			},
 		},
 	},
 	{
@@ -38,7 +43,10 @@ const columns = [
 	{
 		name: 'expiry_date',
 		label: 'Expiry Date',
-		options: sortOption,
+		options: {
+			...sortOption,
+			setCellHeaderProps: () => ({ style: { minWidth: '150px' } }),
+		},
 	},
 	{
 		name: 'instrument_name',
@@ -56,7 +64,7 @@ const columns = [
 		options: sortOption,
 	},
 	{
-		name: 'buy_value',
+		name: 'buy_amount',
 		label: 'Buy Value',
 		options: sortOption,
 	},
@@ -75,7 +83,7 @@ const columns = [
 		options: sortOption,
 	},
 	{
-		name: 'sell_value',
+		name: 'sell_amount',
 		label: 'Sell Value',
 		options: sortOption,
 	},

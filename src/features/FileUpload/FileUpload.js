@@ -18,7 +18,7 @@ function FileUpload() {
 	const dispatch = useDispatch();
 	const { enqueueSnackbar } = useSnackbar();
 
-	const [NFOfiles, setNFOFiles] = useState([]); //1
+	const [NFOfiles, setNFOFiles] = useState([]);
 	const [NSEfiles, setNSEFiles] = useState([]);
 
 	const handleNFOFileChange = (files) => {
