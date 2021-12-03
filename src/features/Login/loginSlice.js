@@ -43,6 +43,8 @@ const { actions, reducer } = createSlice({
 		builder
 			.addCase(logIn.fulfilled, (state, action) => {
 				const { data } = action.payload;
+				LocalStorage.setItem('user', data.user_profile);
+				LocalStorage.setItem('token', data.tokens);
 				state.isAuthenticated = true;
 				state.user = data.user_profile;
 				state.role = data.user_profile.role;

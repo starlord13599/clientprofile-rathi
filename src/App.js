@@ -5,6 +5,8 @@ import { useSelector } from 'react-redux';
 import Login from './features/Login/Login';
 import FileUpload from './features/FileUpload/FileUpload';
 import ClientData from './features/ClientData/ClientData';
+import ManageUser from './features/ManageUsers/ManageUser';
+import AddUser from './features/ManageUsers/AddUser';
 
 function App() {
 	const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
@@ -21,6 +23,8 @@ function App() {
 			<Switch>
 				<Route exact path="/dashboard" component={ClientData}></Route>
 				<Route exact path="/file-upload" component={FileUpload}></Route>
+				<Route exact path="/manage-users" component={ManageUser}></Route>
+				<Route exact path="/manage-users/add" component={AddUser}></Route>
 				<Redirect to="/dashboard"></Redirect>
 			</Switch>
 		);

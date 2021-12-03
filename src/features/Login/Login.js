@@ -22,7 +22,7 @@ import useStyles from './login.style';
 import loginValidationSchema from '../../app/validations/loginSchema';
 // import LocalStorage from '../../app/service/LocalStorage';
 import { logIn } from './loginSlice';
-import LocalStorage from '../../app/service/LocalStorage';
+// import LocalStorage from '../../app/service/LocalStorage';
 
 function Login() {
 	const classes = useStyles();
@@ -41,10 +41,8 @@ function Login() {
 		validationSchema: loginValidationSchema,
 		onSubmit: async (values) => {
 			try {
-				const response = await dispatch(logIn(values)).unwrap();
-				const { tokens, user_profile } = response.data;
-				LocalStorage.setItem('user', user_profile);
-				LocalStorage.setItem('token', tokens);
+				await dispatch(logIn(values)).unwrap();
+				// const { tokens, user_profile } = response.data;
 
 				return enqueueSnackbar('You are logged in', { variant: 'success' });
 			} catch (error) {

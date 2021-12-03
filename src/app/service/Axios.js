@@ -8,12 +8,12 @@ const apiCaller = axios.create({
 
 apiCaller.interceptors.request.use(
 	function (config) {
-		const { access_token: accessToken } = LocalStorage.getItem('token');
+		const tokens = LocalStorage.getItem('token') || null;
 
-		if (accessToken) {
+		if (tokens?.access_token) {
 			config.headers = {
 				Accept: 'application/json',
-				Authorization: `Bearer ${accessToken}`,
+				Authorization: `Bearer ${tokens.access_token}`,
 			};
 		}
 
@@ -42,6 +42,16 @@ class Axios {
 	async apiGet(url) {
 		try {
 			const { data, status } = await apiCaller.get(url);
+			return { data, status };
+		} catch (error) {
+			let { status, data } = error.response;
+			return { status, data };
+		}
+	}
+
+	async apiDelete(url) {
+		try {
+			const { data, status } = await apiCaller.delete(url);
 			return { data, status };
 		} catch (error) {
 			let { status, data } = error.response;

@@ -1,5 +1,6 @@
 import Dashboard from '@material-ui/icons/Dashboard';
 import UploadFileIcon from '@material-ui/icons/CloudUpload';
+import GroupAddIcon from '@material-ui/icons/GroupAdd';
 
 import { ADMIN, EMPLOYEE } from './roles';
 
@@ -15,6 +16,12 @@ const userPermissions = [
 		icon: UploadFileIcon,
 		permissions: [ADMIN],
 		path: '/file-upload',
+	},
+	{
+		label: 'Manage Users',
+		icon: GroupAddIcon,
+		permissions: [ADMIN],
+		path: '/manage-users',
 	},
 ];
 
