@@ -11,18 +11,27 @@ import Button from '@material-ui/core/Button';
 import useStyles from './manageUsers.styles';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
+import { useSnackbar } from 'notistack';
 
 function ManageUser() {
 	const classes = useStyles();
 	const dispatch = useDispatch();
+
 	const listStatus = useSelector((state) => state.manageUser.listStatus);
 	const rows = useSelector((state) => state.manageUser.list);
+	const error = useSelector((state) => state.manageUser.error);
+
+	const { enqueueSnackbar } = useSnackbar();
 
 	useEffect(() => {
 		if (listStatus === 'idle') {
 			dispatch(listUsers());
 		}
-	}, [dispatch, listStatus]);
+
+		if (error) {
+			enqueueSnackbar(error, { variant: 'error' });
+		}
+	}, [dispatch, listStatus, error, enqueueSnackbar]);
 
 	return (
 		<MiniDrawer>
@@ -31,7 +40,7 @@ function ManageUser() {
 					<Typography variant="h5">Manage Users</Typography>
 				</Grid>
 
-				<Grid justifyContent="flex-end" item xs={3}>
+				<Grid item xs={3}>
 					<Link to="/manage-users/add" className={classes.links}>
 						<Button endIcon={<AddIcon />} fullWidth>
 							Add User

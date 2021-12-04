@@ -4,13 +4,14 @@ import Axios from '../../app/service/Axios';
 const initialState = {
 	status: 'idle',
 	listStatus: 'idle',
+	error: null,
 	list: [],
 };
 
 export const addUser = createAsyncThunk('manageUser/add', async (values, { rejectWithValue }) => {
 	try {
 		const { email, password, firstName, lastName, role } = values;
-		const response = await Axios.apiPost('api/user/create', {
+		const { data, status } = await Axios.apiPost('api/user/create', {
 			email,
 			password,
 			first_name: firstName,
@@ -18,13 +19,13 @@ export const addUser = createAsyncThunk('manageUser/add', async (values, { rejec
 			role,
 		});
 
-		if (response.status === 201) {
-			return response;
+		if (status === 201) {
+			return data;
 		}
 
 		return rejectWithValue('Somethig went wrong');
 	} catch (error) {
-		return rejectWithValue(error.message);
+		return rejectWithValue('Internal server error');
 	}
 });
 
@@ -38,9 +39,9 @@ export const listUsers = createAsyncThunk(
 				return response;
 			}
 
-			return rejectWithValue('Somethig went wrong');
+			return rejectWithValue('No data found');
 		} catch (error) {
-			return rejectWithValue(error.message);
+			return rejectWithValue('Internal Server Error');
 		}
 	}
 );
@@ -69,6 +70,7 @@ const { reducer } = createSlice({
 			})
 			.addCase(listUsers.rejected, (state, action) => {
 				state.listStatus = 'rejected';
+				state.error = action.payload;
 			});
 	},
 });

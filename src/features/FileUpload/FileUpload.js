@@ -52,7 +52,7 @@ function FileUpload() {
 
 			return enqueueSnackbar(message, { variant: 'success' });
 		} catch (error) {
-			return enqueueSnackbar(error.message, { variant: 'error' });
+			return enqueueSnackbar(error, { variant: 'error' });
 		}
 	};
 
@@ -79,7 +79,7 @@ function FileUpload() {
 
 			return enqueueSnackbar(message, { variant: 'success' });
 		} catch (error) {
-			return enqueueSnackbar(error.message, { variant: 'error' });
+			return enqueueSnackbar(error, { variant: 'error' });
 		}
 	};
 

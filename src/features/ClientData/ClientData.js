@@ -10,7 +10,6 @@ import { LinearProgress, Typography } from '@material-ui/core';
 import Grid from '@material-ui/core/Grid';
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 import useStyles from './clientData.styles';
-import { Link } from 'react-router-dom';
 import Button from '@material-ui/core/Button';
 
 const options = {
@@ -57,7 +56,7 @@ function ClientData() {
 			await dispatch(dropAllTransactions()).unwrap();
 			return enqueueSnackbar('All transactions were deleted', { variant: 'success' });
 		} catch (error) {
-			return enqueueSnackbar(error.message, { variant: 'error' });
+			return enqueueSnackbar(error, { variant: 'error' });
 		}
 	};
 
@@ -68,7 +67,7 @@ function ClientData() {
 					<Typography variant="h5">Transitions list</Typography>
 				</Grid>
 
-				<Grid justifyContent="flex-end" item xs={3}>
+				<Grid item xs={3}>
 					<Button
 						onClick={handleDropTransaction}
 						color="secondary"
