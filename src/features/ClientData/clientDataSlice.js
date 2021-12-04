@@ -47,6 +47,23 @@ export const fetchOptions = createAsyncThunk(
 	}
 );
 
+export const dropAllTransactions = createAsyncThunk(
+	'dataGrid/dropAllTransactions',
+	async (values, { rejectWithValue }) => {
+		try {
+			const { data, status } = await Axios.apiDelete('api/transaction/delete-all');
+
+			if (status !== 200) {
+				return rejectWithValue('Error while dropping transactions');
+			}
+
+			return data;
+		} catch (error) {
+			return rejectWithValue('Internal Server Error');
+		}
+	}
+);
+
 const { reducer } = createSlice({
 	name: 'dataGrid',
 	initialState,

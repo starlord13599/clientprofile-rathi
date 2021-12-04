@@ -31,6 +31,9 @@ const useStyles = makeStyles((theme) => ({
 	links: {
 		textDecoration: 'none',
 	},
+	topbar: {
+		marginBottom: '.1rem',
+	},
 }));
 
 export default useStyles;

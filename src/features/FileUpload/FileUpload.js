@@ -11,7 +11,7 @@ import { useSnackbar } from 'notistack';
 import MiniDrawer from '../Drawer/Drawer';
 import useStyles from './fileupload.style';
 import { withRouter } from 'react-router';
-import { dropAllTransactions, uplaodFile } from './FileUploadSlice';
+import { uplaodFile } from './FileUploadSlice';
 
 function FileUpload() {
 	const classes = useStyles();
@@ -83,15 +83,6 @@ function FileUpload() {
 		}
 	};
 
-	const handleDropTransaction = async () => {
-		try {
-			await dispatch(dropAllTransactions()).unwrap();
-			return enqueueSnackbar('All transactions were deleted', { variant: 'success' });
-		} catch (error) {
-			return enqueueSnackbar(error.message, { variant: 'error' });
-		}
-	};
-
 	return (
 		<MiniDrawer>
 			<Container>
@@ -158,15 +149,6 @@ function FileUpload() {
 								upload
 							</Button>
 						</form>
-					</Grid>
-					<Grid item xs={12}>
-						<Button
-							onClick={handleDropTransaction}
-							color="secondary"
-							variant="contained"
-						>
-							Delete all transactions
-						</Button>
 					</Grid>
 				</Grid>
 			</Container>

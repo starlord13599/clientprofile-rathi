@@ -1,21 +1,17 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-// import Box from '@material-ui/core/Box';
-// import Button from '@material-ui/core/Button';
-// import Paper from '@material-ui/core/Paper';
-// import TablePagination from '@material-ui/core/TablePagination';
 import { useSnackbar } from 'notistack';
-// import LinearProgress from '@material-ui/core/LinearProgress';
 import MiniDrawer from '../Drawer/Drawer';
-// import useStyles from './clientData.styles';
-import { fetchData } from './clientDataSlice';
-// import TableGrid from './components/TableGrid';
+import { fetchData, dropAllTransactions } from './clientDataSlice';
 import { columns } from './dummyData';
-// import NoDataFound from './components/NoDataFound';
 import { withRouter } from 'react-router';
-// import AccountIdSearch from './AccountIdSearch/AccountIdSearch';
 import MUIDataTable from 'mui-datatables';
-import { LinearProgress } from '@material-ui/core';
+import { LinearProgress, Typography } from '@material-ui/core';
+import Grid from '@material-ui/core/Grid';
+import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
+import useStyles from './clientData.styles';
+import { Link } from 'react-router-dom';
+import Button from '@material-ui/core/Button';
 
 const options = {
 	filterType: 'dropdown',
@@ -36,11 +32,8 @@ const options = {
 };
 
 function ClientData() {
-	// const classes = useStyles();
-	// const [page, setPage] = useState(1);
-	// const [rowsPerPage, setRowsPerPage] = useState(10);
-	// const [order, setOrder] = useState('asc');
-	// const [orderBy, setOrderBy] = useState('accountId');
+	const classes = useStyles();
+
 	const { enqueueSnackbar } = useSnackbar();
 
 	const rows = useSelector((state) => state.dataGrid.data);
@@ -48,25 +41,6 @@ function ClientData() {
 	const status = useSelector((state) => state.dataGrid.status);
 
 	const dispatch = useDispatch();
-
-	// const handleRequestSort = (event, property) => {
-	// 	const isAsc = orderBy === property && order === 'asc';
-	// 	setOrder(isAsc ? 'desc' : 'asc');
-	// 	setOrderBy(property);
-	// };
-
-	// const createSortHandler = (property) => (event) => {
-	// 	handleRequestSort(event, property);
-	// };
-
-	// const handleChangePage = (event, newPage) => {
-	// 	setPage(newPage);
-	// };
-
-	// const handleChangeRowsPerPage = (event) => {
-	// 	setRowsPerPage(+event.target.value);
-	// 	setPage(1);
-	// };
 
 	useEffect(() => {
 		if (status === 'idle') {
@@ -78,53 +52,39 @@ function ClientData() {
 		}
 	}, [dispatch, error, enqueueSnackbar, status]);
 
+	const handleDropTransaction = async () => {
+		try {
+			await dispatch(dropAllTransactions()).unwrap();
+			return enqueueSnackbar('All transactions were deleted', { variant: 'success' });
+		} catch (error) {
+			return enqueueSnackbar(error.message, { variant: 'error' });
+		}
+	};
+
 	return (
 		<MiniDrawer>
-			{/* <Box display="flex" alignItems="center">
-				<AccountIdSearch></AccountIdSearch>
-				<Button variant="contained">Export table data</Button>
-			</Box> */}
-			{/* <Paper className={classes.root}>
-				{status === 'loading' ? (
-					<LinearProgress />
-				) : (
-					<>
-						{rows ? (
-							<TableGrid
-								rows={rows}
-								columns={columns}
-								orderBy={orderBy}
-								order={order}
-								classes={classes}
-								createSortHandler={createSortHandler}
-								isLoading={status}
-							></TableGrid>
-						) : (
-							<NoDataFound />
-						)}
-					</>
-				)}
-			</Paper>
-			<Paper>
-				<TablePagination
-					rowsPerPageOptions={[5, 10, 15]}
-					component="div"
-					count={rows ? rows.length : 0}
-					rowsPerPage={rowsPerPage}
-					page={page}
-					onPageChange={handleChangePage}
-					onRowsPerPageChange={handleChangeRowsPerPage}
-				/>
-			</Paper> */}
+			<Grid className={classes.topbar} container spacing={3}>
+				<Grid item xs={9}>
+					<Typography variant="h5">Transitions list</Typography>
+				</Grid>
+
+				<Grid justifyContent="flex-end" item xs={3}>
+					<Button
+						onClick={handleDropTransaction}
+						color="secondary"
+						variant="contained"
+						endIcon={<DeleteForeverIcon />}
+						fullWidth
+					>
+						Delete all transactions
+					</Button>
+				</Grid>
+			</Grid>
+
 			{status === 'loading' ? (
 				<LinearProgress />
 			) : (
-				<MUIDataTable
-					title={'Stock Exchange'}
-					data={rows}
-					columns={columns}
-					options={options}
-				></MUIDataTable>
+				<MUIDataTable data={rows} columns={columns} options={options}></MUIDataTable>
 			)}
 		</MiniDrawer>
 	);

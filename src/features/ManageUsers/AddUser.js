@@ -179,7 +179,7 @@ function AddUser() {
 								color="primary"
 								className={classes.submit}
 							>
-								Login
+								Add User
 							</Button>
 							{status === 'loading' && (
 								<CircularProgress className={classes.butonSpinner} size={24} />
